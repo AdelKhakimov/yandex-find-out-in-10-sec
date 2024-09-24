@@ -1,0 +1,1 @@
+# yandex-find-out-in-10-sec
