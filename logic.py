@@ -45,3 +45,23 @@ def handler(event, context):
     # Если сеанс новый, отправляем приветственное сообщение
     if session.get('new'):
         return welcome(session, version)
+
+
+"""
+def main():
+    # Пример данных для теста
+    event = {
+        'request': {},
+        'session': {'new': True},
+        'state': {},
+        'version': '1.0'
+    }
+    context = {}
+    
+    response = handler(event, context)
+    print(response)
+    
+
+if __name__ == "__main__":
+    main()
+"""
