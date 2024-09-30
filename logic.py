@@ -1,3 +1,7 @@
+import random
+
+from data import music
+
 class Message:
 
     welcome_message = '👋 Привет.\ Ваша задача - отгадать музыкальное произведение по десяти секундному отрывку.\n{}🚩 Начинаем игру?'
@@ -19,6 +23,10 @@ class Buttons:
     stats_button = {'title': 'Статистика', 'hide': True}
     exit_button = {'title': 'Выход', 'hide': True}
 
+def get_random_element(arr):
+    return random.choice(arr)
+
+
 def welcome(session, version):
     return {
         'response': {
@@ -32,19 +40,40 @@ def welcome(session, version):
     }
 
 
+def first_question(session, version):
+    return {
+        'response': {
+            'text': Message.first_question.format(len(music)),
+            #'tts': 'Первый вопрос',
+            'buttons': [
+                Buttons.repeat_button,
+                Buttons.capitulate_button,
+                Buttons.stats_button,
+                Buttons.exit_button
+            ],
+            'end_session': 'false',
+            'session': session,
+        },
+        'version': version
+    }
+
+
+
 def handler(event, context):
-    request = event.get('request', {})
     session = event.get('session', {})
-    state = event.get('state', {})
     version = event.get('version', {})
-    
-    # Данные о текущем состоянии сессии и пользователя
-    session_state = state.get('session', {})
-    user_state = state.get('user', {})
+    request = event.get('request', {})
+    sound = get_random_element(music)
     
     # Если сеанс новый, отправляем приветственное сообщение
     if session.get('new'):
         return welcome(session, version)
+    
+    if request.get('command') == 'начинаем':
+        return first_question(session, version)
+    
+    if request.get('original_utterance') == sound.get('answer'):
+        return 'верно'
 
 
 """
