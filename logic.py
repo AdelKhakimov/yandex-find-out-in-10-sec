@@ -35,6 +35,13 @@ def get_random_element(arr):
     return random.choice(arr)
 
 
+def get_random_song(music):
+    if music.song.get('asked'):
+        return get_random_song(music)
+    else:
+        return music.song
+
+
 def welcome(session, version):
     return {
         'response': {
@@ -102,8 +109,33 @@ def incorrect_answer(session, version):
   }
 
 
+def get_random_song(music):
+    song = get_random_element(music)
+    i = 0
+    while song.get('asked') and i < len(music):
+        song = get_random_element(music)
+        i += 1
+    return song
+
+
+
 def question(session, version):
-    return get_random_element(music)
+    song = get_random_song(music)
+    return {
+      'response': {
+          'text': Message.incorrect_answer.format(get_random_element(NO)),
+           #'tts': f'<speaker audio="alice-sounds-game-powerup-1.opus">{sound_correct_answer.format('Правильно')}',
+          'buttons': [
+              Buttons.repeat_button,
+              Buttons.capitulate_button,
+              Buttons.stats_button,
+              Buttons.exit_button
+          ],
+          'end_session': 'false',
+          'session': session,
+      },
+      'version': version
+  }
 
 
 def repeat(session, version):
