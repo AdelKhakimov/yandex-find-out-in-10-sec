@@ -42,3 +42,49 @@
     },
     "version": "1.0"
 }
+
+
+{
+    "meta": {
+      "locale": "ru-RU",
+      "timezone": "UTC",
+      "client_id": "ru.yandex.searchplugin/7.16 (none none; android 4.4.2)",
+      "interfaces": {
+        "screen": {},
+        "payments": {},
+        "account_linking": {}
+      }
+    },
+    "session": {
+      "message_id": 2,
+      "session_id": "d6f4f68e-cb51-45fa-9386-822fbc6a27a1",
+      "skill_id": "c7a8dcad-a0bc-4db1-94c8-165114718f42",
+      "user": {
+        "user_id": "514872F602D5CB312F2FF55B5B1EE3F4F63CA175C4A1FD2A14107F53AE32B3A6"
+      },
+      "application": {
+        "application_id": "09EA582B4B49465EB1529BC21AA9FC937BC628229E625B4D02FF7886FE130837"
+      },
+      "user_id": "09EA582B4B49465EB1529BC21AA9FC937BC628229E625B4D02FF7886FE130837",
+      "new": false
+    },
+    "request": {
+      "command": "noize mc вселенная бесконечна",
+      "original_utterance": "noize mc вселенная бесконечна",
+      "nlu": {
+        "tokens": [
+          "noize",
+          "mc",
+          "вселенная",
+          "бесконечна"
+        ],
+        "entities": [],
+        "intents": {}
+      },
+      "markup": {
+        "dangerous_context": false
+      },
+      "type": "SimpleUtterance"
+    },
+    "version": "1.0"
+  }

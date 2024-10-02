@@ -2,6 +2,10 @@ import random
 
 from data import music
 
+YES = ['Верно', 'Правильно', 'Да', 'Отлично']
+NO = ['Нет', 'Неправильно', 'Неверно', 'Неугадал']
+START_COMMAND = ['начинаем', 'да']
+
 class Message:
 
     welcome_message = '👋 Привет.\n Ваша задача - отгадать музыкальное произведение по десяти секундному отрывку.\n{}🚩 Начинаем игру?'
@@ -11,7 +15,9 @@ class Message:
     exit_text = '🚪 Для выхода из игры нажмите на "Выход"\n'
 
     first_question = '👍 Отлично.\nКоличество вопросов на данный момент: {}.\nПрослушайте первый отрывок ➡'
+
     correct_answer = '😎 {}!\nСледующий вопрос ➡'
+    incorrect_answer = '{}!\nПопробуйте еще раз'
 
     help_text = '{} {} {} {}\nℹ Чтобы вывести список команд еще раз, нажмите: "Алиса, помощь".'.format(repeat_text, capitulate_text, stats_text, exit_text)
 
@@ -60,11 +66,11 @@ def first_question(session, version, sound):
     }
 
 
-def correcr_answer(session, version):
+def correct_answer(session, version):
     return {
        'response': {
-           'text': Message.correct_answer.format('правильно'),
-           'tts': f'<speaker audio="alice-sounds-game-powerup-1.opus">{sound_correct_answer.format('Правильно')}',
+           'text': Message.correct_answer.format(get_random_element(YES)),
+           #'tts': f'<speaker audio="alice-sounds-game-powerup-1.opus">{sound_correct_answer.format('Правильно')}',
            'buttons': [
                Buttons.repeat_button,
                Buttons.capitulate_button,
@@ -77,6 +83,23 @@ def correcr_answer(session, version):
        'version': version
    }
 
+
+def incorrect_answer(session, version):
+    return {
+      'response': {
+          'text': Message.incorrect_answer.format(get_random_element(NO)),
+           #'tts': f'<speaker audio="alice-sounds-game-powerup-1.opus">{sound_correct_answer.format('Правильно')}',
+          'buttons': [
+              Buttons.repeat_button,
+              Buttons.capitulate_button,
+              Buttons.stats_button,
+              Buttons.exit_button
+          ],
+          'end_session': 'false',
+          'session': session,
+      },
+      'version': version
+  }
 
 
 def repeat(session, version):
@@ -94,16 +117,17 @@ def handler(event, context):
     if session.get('new'):
         return welcome(session, version)
     
-    if request.get('command') == 'начинаем':
+    if request.get('command') in START_COMMAND:
         return first_question(session, version, sound)
 
-    if request.get('command') == sound.get('answer'):
-        return correcr_answer(session, version)
+    if request.get('command') in song.get('answer'):
+        return correct_answer(session, version)
 
 
-"""
+'''
 def main():
     # Пример данных для теста
+    
     event = {
         'request': {},
         'session': {'new': True},
@@ -111,11 +135,13 @@ def main():
         'version': '1.0'
     }
     context = {}
-    
-    response = handler(event, context)
-    print(response)
+   
+    #response = handler(event, context)
+    song = get_random_element(music)
+
+    print(song.get('answer')[0])
     
 
 if __name__ == "__main__":
     main()
-"""
+'''
