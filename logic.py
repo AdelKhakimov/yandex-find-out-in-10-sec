@@ -102,6 +102,10 @@ def incorrect_answer(session, version):
   }
 
 
+def question(session, version):
+    return get_random_element(music)
+
+
 def repeat(session, version):
     return 'повтори'
 
@@ -122,6 +126,9 @@ def handler(event, context):
 
     if request.get('command') in song.get('answer'):
         return correct_answer(session, version)
+    
+    if request.get('command') not in song.get('answer'):
+        return incorrect_answer(session, version)
 
 
 '''

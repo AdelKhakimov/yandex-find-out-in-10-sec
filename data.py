@@ -9,7 +9,13 @@ music = [
                     'вселенная бесконечна',
                     'вселеная бесконечна'
                 ],
-        'answerd': False,
+        'asked': True,
         'correct answer' : False,
+    },
+    {
+
+    },
+    {
+
     },
 ]
