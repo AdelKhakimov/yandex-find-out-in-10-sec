@@ -1,51 +1,12 @@
-import random
-
+from constants import TextMessages, SoundMessages, Buttons, YES, NO, START_COMMAND
 from data import music
-
-YES = ['Верно', 'Правильно', 'Да', 'Отлично']
-NO = ['Нет', 'Неправильно', 'Неверно', 'Неугадал']
-START_COMMAND = ['начинаем', 'да']
-
-class Message:
-
-    welcome_message = '👋 Привет.\n Ваша задача - отгадать музыкальное произведение по десяти секундному отрывку.\n{}🚩 Начинаем игру?'
-    repeat_text = '↩ Чтобы повторить отрывок, нажмите на "Повтори".\n'
-    capitulate_text = '🙁 Если не знаете, нажмите на "Сдаюсь", "Пас" или "Пропусти".\n'
-    stats_text = '📊 Чтобы узнать текущий счет, нажмите на "Статистика".\n'
-    exit_text = '🚪 Для выхода из игры нажмите на "Выход"\n'
-
-    first_question = '👍 Отлично.\nКоличество вопросов на данный момент: {}.\nПрослушайте первый отрывок ➡'
-
-    correct_answer = '😎 {}!\nСледующий вопрос ➡'
-    incorrect_answer = '{}!\nПопробуйте еще раз'
-
-    help_text = '{} {} {} {}\nℹ Чтобы вывести список команд еще раз, нажмите: "Алиса, помощь".'.format(repeat_text, capitulate_text, stats_text, exit_text)
-
-sound_first_question = '👍 Отлично.\nКоличество вопросов на данный момент: {}.\nПрослушайте первый отрывок ➡ {}'
-sound_correct_answer = '😎 {}!\nСледующий вопрос ➡'
-
-class Buttons:
-    start_button = {'title': 'Начинаем', 'hide': True}
-    capitulate_button = {'title': 'Сдаюсь', 'hide': True}
-    repeat_button = {'title': 'Повтори', 'hide': True}
-    stats_button = {'title': 'Статистика', 'hide': True}
-    exit_button = {'title': 'Выход', 'hide': True}
-
-def get_random_element(arr):
-    return random.choice(arr)
-
-
-def get_random_song(music):
-    if music.song.get('asked'):
-        return get_random_song(music)
-    else:
-        return music.song
+from utils import get_random_element
 
 
 def welcome(session, version):
     return {
         'response': {
-            'text': Message.welcome_message.format(Message.help_text),
+            'text': TextMessages.welcome_message.format(TextMessages.help_text),
             #'tts': f'<speaker audio="alice-sounds-game-powerup-1.opus">{welcome_sound_message}'.format(help_sound),
             'buttons': [Buttons.start_button],
             'end_session': 'false',
@@ -58,8 +19,8 @@ def welcome(session, version):
 def first_question(session, version, sound):
     return {
         'response': {
-            'text': Message.first_question.format(len(music)),
-            'tts': sound_first_question.format(len(music), sound),
+            'text': TextMessages.first_question.format(len(music)),
+            'tts': SoundMessages.sound_first_question.format(len(music), sound),
             'buttons': [
                 Buttons.repeat_button,
                 Buttons.capitulate_button,
@@ -76,7 +37,7 @@ def first_question(session, version, sound):
 def correct_answer(session, version):
     return {
        'response': {
-           'text': Message.correct_answer.format(get_random_element(YES)),
+           'text': TextMessages.correct_answer.format(get_random_element(YES)),
            #'tts': f'<speaker audio="alice-sounds-game-powerup-1.opus">{sound_correct_answer.format('Правильно')}',
            'buttons': [
                Buttons.repeat_button,
@@ -94,7 +55,7 @@ def correct_answer(session, version):
 def incorrect_answer(session, version):
     return {
       'response': {
-          'text': Message.incorrect_answer.format(get_random_element(NO)),
+          'text': TextMessages.incorrect_answer.format(get_random_element(NO)),
            #'tts': f'<speaker audio="alice-sounds-game-powerup-1.opus">{sound_correct_answer.format('Правильно')}',
           'buttons': [
               Buttons.repeat_button,
@@ -123,7 +84,7 @@ def question(session, version):
     song = get_random_song(music)
     return {
       'response': {
-          'text': Message.incorrect_answer.format(get_random_element(NO)),
+          'text': TextMessages.incorrect_answer.format(get_random_element(NO)),
            #'tts': f'<speaker audio="alice-sounds-game-powerup-1.opus">{sound_correct_answer.format('Правильно')}',
           'buttons': [
               Buttons.repeat_button,
