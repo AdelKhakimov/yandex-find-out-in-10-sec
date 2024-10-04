@@ -31,3 +31,26 @@ session = ''
 version = ''
 
 print(welcome(session, version))
+
+
+'''
+def main():
+    # Пример данных для теста
+    
+    event = {
+        'request': {},
+        'session': {'new': True},
+        'state': {},
+        'version': '1.0'
+    }
+    context = {}
+   
+    #response = handler(event, context)
+    song = get_random_element(music)
+
+    print(song.get('answer')[0])
+    
+
+if __name__ == "__main__":
+    main()
+'''

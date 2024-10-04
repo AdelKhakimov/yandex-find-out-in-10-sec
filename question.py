@@ -18,14 +18,12 @@ def first_question(session, version, command):
     return returned_data(session, version, text_message, audio_message, buttons)
 
 
-
 def get_song(session, version, command):
     song = get_random_element(music)
     return song
 
 
 def get_answer(session, version, command, song):
-
     if command in song.get('answer'):
         return correct_answer(session, version)
     else:
