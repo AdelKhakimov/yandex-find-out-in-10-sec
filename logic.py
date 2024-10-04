@@ -1,102 +1,15 @@
-from constants import TextMessages, SoundMessages, Buttons, YES, NO, START_COMMAND
+from constants import TextMessages, AudioMessages, Buttons, START_COMMAND, returned_data
 from data import music
+from question import first_question, get_answer
 from utils import get_random_element
 
 
 def welcome(session, version):
-    return {
-        'response': {
-            'text': TextMessages.welcome_message.format(TextMessages.help_text),
-            #'tts': f'<speaker audio="alice-sounds-game-powerup-1.opus">{welcome_sound_message}'.format(help_sound),
-            'buttons': [Buttons.start_button],
-            'end_session': 'false',
-            'session': session,
-        },
-        'version': version
-    }
+    text_message = TextMessages.welcome_message
+    audio_message = f'<speaker audio="alice-sounds-game-powerup-1.opus">{AudioMessages.welcome_sound}'
+    buttons = Buttons.start_button
 
-
-def first_question(session, version, sound):
-    return {
-        'response': {
-            'text': TextMessages.first_question.format(len(music)),
-            'tts': SoundMessages.sound_first_question.format(len(music), sound),
-            'buttons': [
-                Buttons.repeat_button,
-                Buttons.capitulate_button,
-                Buttons.stats_button,
-                Buttons.exit_button
-            ],
-            'end_session': 'false',
-            'session': session,
-        },
-        'version': version
-    }
-
-
-def correct_answer(session, version):
-    return {
-       'response': {
-           'text': TextMessages.correct_answer.format(get_random_element(YES)),
-           #'tts': f'<speaker audio="alice-sounds-game-powerup-1.opus">{sound_correct_answer.format('Правильно')}',
-           'buttons': [
-               Buttons.repeat_button,
-               Buttons.capitulate_button,
-               Buttons.stats_button,
-               Buttons.exit_button
-           ],
-           'end_session': 'false',
-           'session': session,
-       },
-       'version': version
-   }
-
-
-def incorrect_answer(session, version):
-    return {
-      'response': {
-          'text': TextMessages.incorrect_answer.format(get_random_element(NO)),
-           #'tts': f'<speaker audio="alice-sounds-game-powerup-1.opus">{sound_correct_answer.format('Правильно')}',
-          'buttons': [
-              Buttons.repeat_button,
-              Buttons.capitulate_button,
-              Buttons.stats_button,
-              Buttons.exit_button
-          ],
-          'end_session': 'false',
-          'session': session,
-      },
-      'version': version
-  }
-
-
-def get_random_song(music):
-    song = get_random_element(music)
-    i = 0
-    while song.get('asked') and i < len(music):
-        song = get_random_element(music)
-        i += 1
-    return song
-
-
-
-def question(session, version):
-    song = get_random_song(music)
-    return {
-      'response': {
-          'text': TextMessages.incorrect_answer.format(get_random_element(NO)),
-           #'tts': f'<speaker audio="alice-sounds-game-powerup-1.opus">{sound_correct_answer.format('Правильно')}',
-          'buttons': [
-              Buttons.repeat_button,
-              Buttons.capitulate_button,
-              Buttons.stats_button,
-              Buttons.exit_button
-          ],
-          'end_session': 'false',
-          'session': session,
-      },
-      'version': version
-  }
+    return returned_data(session, version, text_message, audio_message, buttons)
 
 
 def repeat(session, version):
@@ -107,21 +20,19 @@ def handler(event, context):
     session = event.get('session', {})
     version = event.get('version', {})
     request = event.get('request', {})
+    command = request.get('command', {})
     song = get_random_element(music)
     sound = song.get('sound')
+    answer = song.get('answer')
     
     # Если сеанс новый, отправляем приветственное сообщение
     if session.get('new'):
         return welcome(session, version)
     
-    if request.get('command') in START_COMMAND:
-        return first_question(session, version, sound)
-
-    if request.get('command') in song.get('answer'):
-        return correct_answer(session, version)
+    if command in START_COMMAND:
+        return first_question(session, version, command)
     
-    if request.get('command') not in song.get('answer'):
-        return incorrect_answer(session, version)
+    return get_answer(session, version, command, song)
 
 
 '''

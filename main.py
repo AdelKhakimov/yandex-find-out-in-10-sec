@@ -1,17 +1,33 @@
-import random
+from constants import TextMessages, AudioMessages
 
-from data import music
+class Buttons:
+    start_button = {'title': 'Начинаем', 'hide': True}
+    capitulate_button = {'title': 'Сдаюсь', 'hide': True}
+    repeat_button = {'title': 'Повтори', 'hide': True}
+    stats_button = {'title': 'Статистика', 'hide': True}
+    exit_button = {'title': 'Выход', 'hide': True}
 
-def get_random_element(arr):
-    return random.choice(arr)
+def returned_data(session, version, text_message, audio_message, buttons):
+    return {
+        'response': {
+            'text': text_message,
+            'tts': audio_message,
+            'buttons': [buttons],
+            'end_session': 'false',
+            'session': session,
+        },
+        'version': version
+    }
 
-def get_random_song(music):
-    song = get_random_element(music)
-    i = 0
-    while song.get('asked') and i < len(music):
-        song = get_random_element(music)
-        i += 1
-    return song
-    
 
-print(get_random_song(music))
+def welcome(session, version):
+    text_message = TextMessages.welcome_message.format(TextMessages.help_text)
+    audio_message = AudioMessages.welcome_sound.format(TextMessages.help_text)
+    buttons = Buttons.start_button
+    #data = returned_data(session, version, text_message, audio_message, buttons)
+    return print(returned_data(session, version, text_message, audio_message, buttons))
+
+session = ''
+version = ''
+
+print(welcome(session, version))
