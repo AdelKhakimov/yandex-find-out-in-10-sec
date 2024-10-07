@@ -8,14 +8,11 @@ from data import music
 from utils import get_random_element
 
 
-def first_question(session, version, command):
-
-    song = get_song(session, version, command)
+def first_question(session, version, command, song):
     sound = song.get('sound')
     text_message = TextMessages.first_question.format(len(music))
     audio_message = AudioMessages.sound_first_question.format(len(music), sound)
     buttons = Buttons.menu_buttons
-
     return returned_data(session, version, text_message, audio_message, buttons)
 
 
@@ -24,7 +21,6 @@ def correct_answer(session, version):
     #audio_message = f'<speaker audio="alice-sounds-game-powerup-1.opus">{AudioMessages.correct_answer_sound}'
     audio_message = f'{get_random_element(WIN_SOUND_URLS)}{AudioMessages.correct_answer_sound.format(get_random_element(YES))}'
     buttons = Buttons.menu_buttons
-
     return returned_data(session, version, text_message, audio_message, buttons)
 
 
@@ -33,27 +29,38 @@ def incorrect_answer(session, version):
     #audio_message = f'<speaker audio="alice-sounds-game-loss-1.opus">{AudioMessages.incorrect_answer_sound}'
     audio_message = f'{get_random_element(LOSE_SOUND_URLS)}{AudioMessages.incorrect_answer_sound.format(get_random_element(NO))}'
     buttons = Buttons.menu_buttons
-
     return returned_data(session, version, text_message, audio_message, buttons)
 
 
 def help_command(session, version):
-    pass
+    text_message = TextMessages.help_text
+    audio_message = AudioMessages.help_sound
+    buttons = Buttons.menu_buttons
+    return returned_data(session, version, text_message, audio_message, buttons)
 
 
 def repeate_command(session, version):
-    pass
+    text_mesage = TextMessages.repeate_text
+    audio_message = AudioMessages.repeate_sound
+    buttons = Buttons.menu_buttons
+    return returned_data(session, version, text_mesage, audio_message, buttons)
 
 
 def capitulate_command(session, version):
-    pass
+    text_message = TextMessages.capitulate_text
+    audio_message = AudioMessages.capitulate_sound
+    buttons = Buttons.menu_buttons
+    return returned_data(session, version, text_message, audio_message, buttons)
 
 
 def exit_command(session, version):
-    pass
+    text_message = TextMessages.exit_text
+    audio_message = AudioMessages.exit_sound
+    buttons = Buttons.menu_buttons
+    return returned_data(session, version, text_message, audio_message, buttons)
 
 
-def get_song(session, version, command):
+def get_song(music):
     song = get_random_element(music)
     return song
 
@@ -66,7 +73,7 @@ def get_answer(session, version, command, song):
     
 
 def check_answer(session, version, command):
-    song = ...
+    song = get_song(music)
 
     if command in START_COMMAND:
         return first_question(session, version, command)
