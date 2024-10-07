@@ -45,8 +45,8 @@ def handler(event, context):
     elif command in CAPITULATE_COMMAND:
         return capitulate_command(session, version)
     
-    elif command in EXIT_COMMAND(session, version):
-        return exit_command(session, version)
+    #elif command in EXIT_COMMAND(session, version): пока вызывает ошибку list object is not iterable
+    #    return exit_command(session, version)
     
     return get_answer(session, version, command, song)
 
