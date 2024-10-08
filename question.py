@@ -21,7 +21,9 @@ def correct_answer(session, version):
     #audio_message = f'<speaker audio="alice-sounds-game-powerup-1.opus">{AudioMessages.correct_answer_sound}'
     audio_message = f'{get_random_element(WIN_SOUND_URLS)}{AudioMessages.correct_answer_sound.format(get_random_element(YES))}'
     buttons = Buttons.menu_buttons
-    return returned_data(session, version, text_message, audio_message, buttons)
+    song = get_song(music)
+    next_question = get_question(session, version, song)
+    return returned_data(session, version, text_message, audio_message, buttons, next_question)
 
 
 def incorrect_answer(session, version):
@@ -65,6 +67,12 @@ def get_answer(session, version, command, song):
         return correct_answer(session, version)
     else:
         return incorrect_answer(session, version)
+
+
+def get_question(session, version, song):
+    sound = song.get('sound')
+    buttons = Buttons.menu_buttons
+    return returned_data(session, version, sound, buttons)
     
 
 def check_answer(session, version, command, song):
