@@ -7,17 +7,18 @@ class Buttons:
     stats_button = {'title': 'Статистика', 'hide': True}
     exit_button = {'title': 'Выход', 'hide': True}
 
-def returned_data(session, version, text_message, audio_message, buttons):
+def returned_data(session, version, text_message, audio_message, buttons, song=None):
     return {
         'response': {
             'text': text_message,
             'tts': audio_message,
-            'buttons': [buttons],
+            'buttons': buttons,
             'end_session': 'false',
             'session': session,
         },
         'version': version
-    }
+    }, song
+
 
 
 def welcome(session, version):
@@ -25,7 +26,8 @@ def welcome(session, version):
     audio_message = AudioMessages.welcome_sound.format(TextMessages.help_text)
     buttons = Buttons.start_button
     #data = returned_data(session, version, text_message, audio_message, buttons)
-    return print(returned_data(session, version, text_message, audio_message, buttons))
+    song = 123
+    return print(returned_data(session, version, text_message, audio_message, buttons, song))
 
 session = ''
 version = ''

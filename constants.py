@@ -66,16 +66,4 @@ class Buttons:
 
 class MusicUrls:
     univers_infinity = '<speaker audio="dialogs-upload/c7a8dcad-a0bc-4db1-94c8-165114718f42/495dcdff-efc6-4493-a197-ea95fc448b12.opus">'
-
-
-def returned_data(session, version, text_message, audio_message, buttons):
-    return {
-        'response': {
-            'text': text_message,
-            'tts': audio_message,
-            'buttons': buttons,
-            'end_session': 'false',
-            'session': session,
-        },
-        'version': version
-    }
+    exhale = '<speaker audio="dialogs-upload/c7a8dcad-a0bc-4db1-94c8-165114718f42/7463f2e4-f776-47c6-8292-46ef6b2d0c7e.opus">'

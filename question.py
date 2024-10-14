@@ -1,11 +1,11 @@
 from constants import (
     TextMessages, AudioMessages, Buttons, 
-    returned_data, YES, NO,
+    YES, NO,
     START_COMMAND, HELP_COMMAND, REPEAT_COMMAND, CAPITULATE_COMMAND, EXIT_COMMAND,
     WIN_SOUND_URLS, LOSE_SOUND_URLS
 )
 from data import music
-from utils import get_random_element, get_song
+from utils import get_random_element, get_song, returned_data
 
 
 def first_question(session, version, command, song):
@@ -22,8 +22,7 @@ def correct_answer(session, version):
     audio_message = f'{get_random_element(WIN_SOUND_URLS)}{AudioMessages.correct_answer_sound.format(get_random_element(YES))}'
     buttons = Buttons.menu_buttons
     song = get_song(music)
-    next_question = get_question(session, version, song)
-    return returned_data(session, version, text_message, audio_message, buttons, next_question)
+    return returned_data(session, version, text_message, audio_message, buttons, song)
 
 
 def incorrect_answer(session, version):
@@ -67,12 +66,6 @@ def get_answer(session, version, command, song):
         return correct_answer(session, version)
     else:
         return incorrect_answer(session, version)
-
-
-def get_question(session, version, song):
-    sound = song.get('sound')
-    buttons = Buttons.menu_buttons
-    return returned_data(session, version, sound, buttons)
     
 
 def check_answer(session, version, command, song):

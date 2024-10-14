@@ -11,9 +11,12 @@ music = [
                 ],
     },
     {
-
-    },
-    {
+        'name': ['Noize MC — Вселенная бесконечна?'],
+        'sound': MusicUrls.exhale,
+        'answer': [
+            'noize mc вселенная бесконечна',
+            'выдыхай'
+        ]
 
     },
 ]
