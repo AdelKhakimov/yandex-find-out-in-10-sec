@@ -16,7 +16,7 @@ def returned_data(session, version, text_message, audio_message, buttons, song=N
         return {
         'response': {
             'text': text_message,
-            'tts': sound,
+            'tts': audio_message + sound,
             'buttons': buttons,
             'end_session': 'false',
             'session': session,
