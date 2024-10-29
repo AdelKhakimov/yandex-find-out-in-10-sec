@@ -5,7 +5,7 @@
 
 ## Технологии
 ### Основные технологии
-* Pyrhon
+* Python
 * платформа ЯндексДиалоги
 * Yandex Cloud Functions
 
