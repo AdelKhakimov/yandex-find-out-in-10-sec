@@ -1,13 +1,12 @@
 from constants import (
     TextMessages, AudioMessages, Buttons,
     START_COMMAND, HELP_COMMAND, REPEAT_COMMAND, CAPITULATE_COMMAND, EXIT_COMMAND,
-    returned_data
 )
 from data import music
 from question import (
     first_question, get_answer, help_command, repeate_command, capitulate_command, exit_command
 )
-from utils import get_song
+from utils import get_song, returned_data
 
 def welcome(session, version):
     text_message = TextMessages.welcome_message
